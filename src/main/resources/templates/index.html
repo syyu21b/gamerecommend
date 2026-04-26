@@ -4,8 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GAME PICK - 맞춤형 게임 정보 서비스</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
     <style>
+        @font-face {
+            font-family: 'LotteMartDream';
+            src: url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamMedium.woff2') format('woff2'),
+                 url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamMedium.woff') format('woff');
+            font-weight: 400;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'LotteMartDream';
+            src: url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamBold.woff2') format('woff2'),
+                 url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamBold.woff') format('woff');
+            font-weight: 700;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'LotteMartDream';
+            src: url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamLight.woff2') format('woff2'),
+                 url('//cdn.jsdelivr.net/korean-webfonts/1/corps/lottemart/LotteMartDream/LotteMartDreamLight.woff') format('woff');
+            font-weight: 300;
+            font-display: swap;
+        }
+
         :root {
             --bg-color: #0d1117;
             --card-bg: #161b22;
@@ -13,6 +36,7 @@
             --text-secondary: #8b949e;
             --accent-blue: #1f6feb;
             --accent-glow: rgba(31, 111, 235, 0.4);
+            --header-bg: rgba(13, 17, 23, 0.88);
 
             /* 게임별 포인트 컬러 */
             --lol-color: #0ac8b9;
@@ -23,7 +47,7 @@
         }
 
         body {
-            font-family: 'Pretendard', sans-serif;
+            font-family: 'LotteMartDream', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-primary);
             margin: 0;
@@ -33,16 +57,22 @@
 
         /* --- 헤더 섹션 --- */
         header {
-            background: rgba(22, 27, 34, 0.95);
+            background: var(--header-bg);
             backdrop-filter: blur(10px);
-            padding: 1rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             position: sticky;
             top: 0;
             z-index: 1000;
-            border-bottom: 1px solid #30363d;
+            border-bottom: 1px solid rgba(88, 166, 255, 0.2);
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0.95rem 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
         }
 
         .logo {
@@ -50,6 +80,7 @@
             font-weight: 900;
             letter-spacing: -0.5px;
             background: linear-gradient(90deg, #58a6ff, #1f6feb);
+            background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -57,12 +88,62 @@
         .nav-links a {
             color: var(--text-secondary);
             text-decoration: none;
-            margin: 0 15px;
+            margin: 0 10px;
             font-weight: 600;
-            transition: 0.3s;
+            padding: 8px 10px;
+            border-radius: 8px;
+            transition: 0.25s ease;
         }
 
-        .nav-links a:hover { color: var(--text-primary); }
+        .nav-links a:hover {
+            color: var(--text-primary);
+            background: rgba(88, 166, 255, 0.1);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            background: transparent;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            cursor: pointer;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            background: var(--card-bg);
+            border: 1px solid #30363d;
+            border-radius: 10px;
+            min-width: 160px;
+            padding: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+        }
+
+        .mobile-menu a {
+            display: block;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 10px 12px;
+            border-radius: 6px;
+        }
+
+        .mobile-menu a:hover {
+            background: #21262d;
+        }
+
+        .mobile-menu.active {
+            display: block;
+        }
 
         .auth-buttons .btn {
             padding: 8px 20px;
@@ -72,11 +153,135 @@
             cursor: pointer;
             border: none;
             transition: 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .btn-login { background: transparent; color: var(--text-primary); border: 1px solid #30363d !important; margin-right: 8px; }
+        .auth-buttons {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+        }
+
+        .btn-login { background: transparent; color: var(--text-primary); border: 1px solid #30363d !important; }
+        .btn-login:hover { border-color: #58a6ff !important; }
         .btn-signup { background: var(--accent-blue); color: white; }
         .btn-signup:hover { box-shadow: 0 0 15px var(--accent-glow); }
+
+        /* --- 로그인 모달 --- */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s ease, visibility 0.2s ease;
+            z-index: 2000;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .login-modal {
+            width: min(90%, 380px);
+            background: #111827;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+        }
+
+        .login-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .login-modal-header h3 {
+            margin: 0;
+            font-size: 1.15rem;
+        }
+
+        .modal-close {
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .login-form input {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            color: var(--text-primary);
+            padding: 11px 12px;
+            font-size: 0.95rem;
+        }
+
+        .login-form input:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 2px rgba(31, 111, 235, 0.25);
+        }
+
+        .btn-submit-login {
+            margin-top: 6px;
+            padding: 11px;
+            border: none;
+            border-radius: 8px;
+            background: var(--accent-blue);
+            color: #fff;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn-submit-login:hover {
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .login-extra-actions {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .login-extra-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 9px 6px;
+            border-radius: 8px;
+            border: 1px solid #30363d;
+            background: #0d1117;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.78rem;
+            font-weight: 700;
+            transition: 0.2s ease;
+        }
+
+        .login-extra-link:hover {
+            color: var(--text-primary);
+            border-color: #58a6ff;
+            background: rgba(88, 166, 255, 0.12);
+        }
 
         /* --- 메인 레이아웃 --- */
         .container {
@@ -177,6 +382,19 @@
             padding-bottom: 10px;
         }
 
+        .board-action {
+            font-size: 0.8rem;
+            color: #58a6ff;
+            text-decoration: none;
+            border: 1px solid rgba(88, 166, 255, 0.35);
+            border-radius: 6px;
+            padding: 5px 10px;
+        }
+
+        .board-action:hover {
+            background: rgba(88, 166, 255, 0.12);
+        }
+
         .board-list { list-style: none; padding: 0; margin: 0; }
         .board-list li {
             display: flex;
@@ -184,30 +402,92 @@
             padding: 12px 0;
             border-bottom: 1px solid rgba(255,255,255,0.05);
             font-size: 0.9rem;
+            gap: 12px;
+        }
+
+        .board-list a {
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .board-list a:hover {
+            color: #58a6ff;
         }
 
         .date { color: var(--text-secondary); font-size: 0.8rem; }
 
+        /* --- 푸터 섹션 --- */
+        footer {
+            margin-top: 24px;
+            border-top: 1px solid #30363d;
+            background: #0b1118;
+        }
+
+        .footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 28px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            color: var(--text-secondary);
+        }
+
+        .footer-brand {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.88rem;
+        }
+
+        .footer-links a:hover {
+            color: #58a6ff;
+        }
+
         @media (max-width: 768px) {
             .community-grid { grid-template-columns: 1fr; }
-            header { padding: 1rem 20px; }
             .nav-links { display: none; }
+            .mobile-menu-btn { display: inline-flex; }
+            .footer-inner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
         }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="logo">GAME PICK</div>
-    <nav class="nav-links">
-        <a href="#">홈</a>
-        <a href="#notice">공지사항</a>
-        <a href="#board">자유게시판</a>
-    </nav>
-    <div class="auth-buttons">
-        <button class="btn btn-login">로그인</button>
-        <button class="btn btn-signup">회원가입</button>
-    </div>
+    <div class="header-inner">
+        <div class="logo">GAME PICK</div>
+        <nav class="nav-links">
+            <a href="/">홈</a>
+            <a href="/notice">공지사항</a>
+            <a href="/board">자유게시판</a>
+        </nav>
+        <div class="auth-buttons">
+            <button class="btn btn-login">로그인</button>
+            <a class="btn btn-signup" href="/signup">회원가입</a>
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="모바일 메뉴 열기">☰</button>
+            <div class="mobile-menu" id="mobileMenu">
+                <a href="/">홈</a>
+                <a href="/notice">공지사항</a>
+                <a href="/board">자유게시판</a>
+            </div>
+        </div>
+    </div>    
 </header>
 
 <div class="container">
@@ -219,13 +499,13 @@
     <div class="game-grid">
         <div class="game-card">
             <div class="img-container">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSd42Ia4ljXpfsa0Nsu1uUkZ4KQKhOBl50M1g&s" alt="League of Legends">
+                <img src="https://store-images.s-microsoft.com/image/apps.18996.14127010465288187.f9de4a96-0ee4-4da3-bf66-d4132b38c599.caf661a7-e0b3-492d-b91b-63627e47283e" alt="League of Legends">
             </div>
             <div class="card-body">
                 <h3>리그 오브 레전드</h3>
                 <div class="btn-wrap">
                     <a href="https://www.leagueoflegends.com/ko-kr/" class="btn-game btn-site" target="_blank">공식 사이트</a>
-                    <a href="#" class="btn-game btn-lol">라인별 티어표</a>
+                    <a href="https://www.op.gg/champions" class="btn-game btn-lol" target="_blank" rel="noopener noreferrer">라인별 티어표</a>
                 </div>
             </div>
         </div>
@@ -238,7 +518,7 @@
                 <h3>롤토체스</h3>
                 <div class="btn-wrap">
                     <a href="https://teamfighttactics.leagueoflegends.com/ko-kr/" class="btn-game btn-site" target="_blank">공식 사이트</a>
-                    <a href="#" class="btn-game btn-tft">추천 덱 정보</a>
+                    <a href="https://tft.op.gg/meta-trends/comps" class="btn-game btn-tft" target="_blank" rel="noopener noreferrer">추천 덱 정보</a>
                 </div>
             </div>
         </div>
@@ -251,7 +531,7 @@
                 <h3>발로란트</h3>
                 <div class="btn-wrap">
                     <a href="https://playvalorant.com/ko-kr/" class="btn-game btn-site" target="_blank">공식 사이트</a>
-                    <a href="#" class="btn-game btn-val">포지션별 티어</a>
+                    <a href="https://tracker.gg/valorant/agents" class="btn-game btn-val" target="_blank" rel="noopener noreferrer">포지션별 티어</a>
                 </div>
             </div>
         </div>
@@ -264,20 +544,20 @@
                 <h3>오버워치 2</h3>
                 <div class="btn-wrap">
                     <a href="https://overwatch.blizzard.com/ko-kr/" class="btn-game btn-site" target="_blank">공식 사이트</a>
-                    <a href="#" class="btn-game btn-ow2">챔피언 설명서</a>
+                    <a href="https://overwatch.blizzard.com/ko-kr/heroes/" class="btn-game btn-ow2" target="_blank" rel="noopener noreferrer">챔피언 설명서</a>
                 </div>
             </div>
         </div>
 
         <div class="game-card">
             <div class="img-container">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0u8Sca9b864HzYmYe3ZTEHPw54ECdJ0cIeg&s" alt="PUBG">
+                <img src="https://t1.kakaocdn.net/gamepub/daumgame/common/meta_tag_pubg.png" alt="PUBG">
             </div>
             <div class="card-body">
                 <h3>배틀그라운드</h3>
                 <div class="btn-wrap">
                     <a href="https://pubg.game.daum.net/" class="btn-game btn-site" target="_blank">공식 사이트</a>
-                    <a href="#" class="btn-game btn-pubg">총기 설명서</a>
+                    <a href="https://battlegrounds.party/weapons/" class="btn-game btn-pubg" target="_blank" rel="noopener noreferrer">총기 설명서</a>
                 </div>
             </div>
         </div>
@@ -287,19 +567,19 @@
         <section id="notice" class="board">
             <div class="board-header">
                 <h3>📢 공지사항</h3>
-                <span style="font-size: 0.8rem; cursor:pointer;">더보기</span>
+                <a href="/notice" class="board-action">공지사항 이동</a>
             </div>
             <ul class="board-list">
-                <li><span>시스템 정기 점검 안내</span><span class="date">2026.04.26</span></li>
-                <li><span>신규 게임 정보 업데이트 소식</span><span class="date">2026.04.25</span></li>
-                <li><span>커뮤니티 이용 규칙 안내 (필독)</span><span class="date">2026.04.20</span></li>
+                <li><a href="/notice/detail?post=maintenance">시스템 정기 점검 안내</a><span class="date">2026.04.26</span></li>
+                <li><a href="/notice/detail?post=update">신규 게임 정보 업데이트 소식</a><span class="date">2026.04.25</span></li>
+                <li><a href="/notice/detail?post=rules">커뮤니티 이용 규칙 안내 (필독)</a><span class="date">2026.04.20</span></li>
             </ul>
         </section>
 
         <section id="board" class="board">
             <div class="board-header">
                 <h3>💬 자유게시판</h3>
-                <span style="font-size: 0.8rem; cursor:pointer;">더보기</span>
+                <a href="/board" class="board-action">자유게시판 이동</a>
             </div>
             <ul class="board-list">
                 <li><span>오늘 롤 연승 기분 최고네요!</span><span class="date">작성자: 협곡왕</span></li>
@@ -309,6 +589,91 @@
         </section>
     </div>
 </div>
+
+<footer>
+    <div class="footer-inner">
+        <div>
+            <div class="footer-brand">GAME PICK</div>
+            <div>게이머를 위한 맞춤형 정보 허브</div>
+        </div>
+        <div class="footer-links">
+            <a href="#">서비스 소개</a>
+            <a href="/notice">공지사항</a>
+            <a href="/board">커뮤니티</a>
+            <a href="/signup">회원가입</a>
+            <a href="/terms">이용약관</a>
+            <a href="/privacy">개인정보처리방침</a>
+        </div>
+        <div>© 2026 GAME PICK. All rights reserved.</div>
+    </div>
+</footer>
+
+<div id="loginModal" class="modal-overlay" aria-hidden="true">
+    <div class="login-modal" role="dialog" aria-modal="true" aria-labelledby="loginModalTitle">
+        <div class="login-modal-header">
+            <h3 id="loginModalTitle">로그인</h3>
+            <button type="button" class="modal-close" id="closeLoginModal" aria-label="로그인 모달 닫기">✕</button>
+        </div>
+        <form class="login-form">
+            <input type="text" name="username" placeholder="아이디를 입력하세요" required>
+            <input type="password" name="password" placeholder="비밀번호를 입력하세요" required>
+            <button type="submit" class="btn-submit-login">로그인</button>
+            <div class="login-extra-actions">
+                <a href="/find-id" class="login-extra-link">아이디 찾기</a>
+                <a href="/find-password" class="login-extra-link">비밀번호 찾기</a>
+                <a href="/signup" class="login-extra-link">회원가입</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    const loginButton = document.querySelector(".btn-login");
+    const loginModal = document.getElementById("loginModal");
+    const closeLoginModalButton = document.getElementById("closeLoginModal");
+    const mobileMenuButton = document.getElementById("mobileMenuBtn");
+    const mobileMenu = document.getElementById("mobileMenu");
+
+    function openLoginModal() {
+        loginModal.classList.add("active");
+        loginModal.setAttribute("aria-hidden", "false");
+    }
+
+    function closeLoginModal() {
+        loginModal.classList.remove("active");
+        loginModal.setAttribute("aria-hidden", "true");
+    }
+
+    loginButton.addEventListener("click", openLoginModal);
+    closeLoginModalButton.addEventListener("click", closeLoginModal);
+    mobileMenuButton.addEventListener("click", function () {
+        mobileMenu.classList.toggle("active");
+    });
+
+    loginModal.addEventListener("click", function (event) {
+        if (event.target === loginModal) {
+            closeLoginModal();
+        }
+    });
+
+    document.addEventListener("click", function (event) {
+        if (!mobileMenu.contains(event.target) && event.target !== mobileMenuButton) {
+            mobileMenu.classList.remove("active");
+        }
+    });
+
+    mobileMenu.querySelectorAll("a").forEach(function (menuLink) {
+        menuLink.addEventListener("click", function () {
+            mobileMenu.classList.remove("active");
+        });
+    });
+
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && loginModal.classList.contains("active")) {
+            closeLoginModal();
+        }
+    });
+</script>
 
 </body>
 </html>
