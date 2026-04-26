@@ -36,7 +36,11 @@
             --text-secondary: #8b949e;
             --accent-blue: #1f6feb;
             --accent-glow: rgba(31, 111, 235, 0.4);
-            --header-bg: rgba(13, 17, 23, 0.88);
+            --header-bg: rgba(17, 24, 39, 0.95);
+            --footer-bg: #0f172a;
+            --header-link: #cbd5e1;
+            --footer-link: #d1d5db;
+            --footer-muted: #94a3b8;
 
             /* 게임별 포인트 컬러 */
             --lol-color: #0ac8b9;
@@ -86,7 +90,7 @@
         }
 
         .nav-links a {
-            color: var(--text-secondary);
+            color: var(--header-link);
             text-decoration: none;
             margin: 0 10px;
             font-weight: 600;
@@ -96,8 +100,8 @@
         }
 
         .nav-links a:hover {
-            color: var(--text-primary);
-            background: rgba(88, 166, 255, 0.1);
+            color: #ffffff;
+            background: rgba(96, 165, 250, 0.22);
         }
 
         .mobile-menu-btn {
@@ -420,7 +424,7 @@
         footer {
             margin-top: 24px;
             border-top: 1px solid #30363d;
-            background: #0b1118;
+            background: var(--footer-bg);
         }
 
         .footer-inner {
@@ -431,13 +435,13 @@
             justify-content: space-between;
             align-items: center;
             gap: 20px;
-            color: var(--text-secondary);
+            color: var(--footer-muted);
         }
 
         .footer-brand {
             font-size: 0.95rem;
             font-weight: 700;
-            color: var(--text-primary);
+            color: #f8fafc;
         }
 
         .footer-links {
@@ -447,13 +451,13 @@
         }
 
         .footer-links a {
-            color: var(--text-secondary);
+            color: var(--footer-link);
             text-decoration: none;
             font-size: 0.88rem;
         }
 
         .footer-links a:hover {
-            color: #58a6ff;
+            color: #7dd3fc;
         }
 
         @media (max-width: 768px) {
